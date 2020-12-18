@@ -55,4 +55,8 @@ export class TodoComponent implements OnInit, OnDestroy {
   delete(id: number): void {
     this.store.dispatch(todoActions.startDeleteTodo({id}));
   }
+
+  addIsCompletedClass(isCompleted: boolean): string {
+    return isCompleted ? 'isCompleted' : 'isNotCompleted';
+  }
 }

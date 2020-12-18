@@ -1,0 +1,9 @@
+.isCompleted {
+  font-weight: bold;
+  color: green;
+}
+
+.isNotCompleted {
+  font-weight: bold;
+  color: red;
+}

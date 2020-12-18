@@ -10,6 +10,7 @@ import { todoReducer } from './todo.reducers';
 import { FormsModule } from '@angular/forms';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { TodoEffects } from './todo.effects';
 
 @NgModule({
   declarations: [
@@ -21,10 +22,11 @@ import { environment } from '../environments/environment';
     AppRouting,
     FormsModule,
     StoreModule.forRoot({todos: todoReducer}),
-    EffectsModule.forRoot([]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
+    EffectsModule.forRoot([TodoEffects]),
+    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production})
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

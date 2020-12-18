@@ -19,10 +19,7 @@ const reducer = createReducer(
   on(todoActions.startCreateTodo, (state: TodoState, {payload}) => {
     return {
       ...state,
-      todos: [
-        ...state.todos,
-        {...payload, id: (_.max(state.todos.map(todo => todo.id)) || 0) + 1}
-      ],
+      todos: [ ...state.todos ],
       todoError: null
     };
   }),
@@ -31,6 +28,9 @@ const reducer = createReducer(
   }),
   on(todoActions.startDeleteTodo, (state: TodoState, {id}) => {
     return {...state, todos: [...state.todos.filter(todo => todo.id !== id)]};
+  }),
+  on(todoActions.successDeleteTodo, (state: TodoState, {payload}) => {
+    return {...state, todos: [...state.todos]};
   }),
   on(todoActions.ErrorTodo, (state: TodoState, error: Error) => {
     return {...state, todoError: error};
