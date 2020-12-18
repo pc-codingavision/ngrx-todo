@@ -1,7 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import TodoState, { initializeState } from './todo-state';
 import * as todoActions from './todo.actions';
-import Todo from './model/todo';
+import * as _ from 'lodash';
 
 export const initialState = initializeState();
 
@@ -12,15 +12,25 @@ export const initialState = initializeState();
  */
 const reducer = createReducer(
   initialState,
-  on(todoActions.getTodos, state => state),
+  on(todoActions.startGetTodos, state => state),
   on(todoActions.successGetTodo, (state: TodoState, {payload}) => {
     return {...state, todos: payload};
   }),
-  on(todoActions.createTodo, (state: TodoState, todo: Todo) => {
-    return {...state, todos: [...state.todos, todo], todoError: null};
+  on(todoActions.startCreateTodo, (state: TodoState, {payload}) => {
+    return {
+      ...state,
+      todos: [
+        ...state.todos,
+        {...payload, id: (_.max(state.todos.map(todo => todo.id)) || 0) + 1}
+      ],
+      todoError: null
+    };
   }),
   on(todoActions.successCreateTodo, (state: TodoState, {payload}) => {
     return {...state, todos: [...state.todos, payload], todoError: null};
+  }),
+  on(todoActions.startDeleteTodo, (state: TodoState, {id}) => {
+    return {...state, todos: [...state.todos.filter(todo => todo.id !== id)]};
   }),
   on(todoActions.ErrorTodo, (state: TodoState, error: Error) => {
     return {...state, todoError: error};
