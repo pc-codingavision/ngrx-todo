@@ -1,1 +1,53 @@
-<p>todo works!</p>
+<div class="container">
+  <h2>Todo List</h2>
+
+  <div *ngIf="todoError?.message">
+    <div class="alert alert-danger" role="alert">
+      Some error occurred. Please, try again
+    </div>
+  </div>
+
+  <ng-container *ngFor="let todo of todos">
+    <div class="row">
+      <div class="col-md-1">Id:</div>
+      <div class="col-md-1">{{ todo.id }}</div>
+      <div class="col-md-1"><strong>Name:</strong></div>
+      <div class="col-md-2" todoItem>{{ todo.title }}</div>
+      <div class="col-md-2"><strong>Is completed:</strong></div>
+      <div class="col-md-1">{{ todo.isCompleted }}</div>
+      <div class="col-md-2"><button class="btn btn-outline-primary" (click)="delete(todo.id)">Delete</button></div>
+    </div>
+  </ng-container>
+</div>
+<hr>
+<div class="container form-group" style="margin: 10px">
+  <h3>Create new todo</h3>
+  <form (ngSubmit)="addTodo()">
+    <div class="row">
+      <div class="form-group col-md-4">
+        <input class="form-control"
+               type="text"
+               [(ngModel)]="title"
+               placeholder="Enter todo info"
+               name="title"
+               style="min-width: 150%"/>
+      </div>
+      <div class="col-md-2 form-check" style="margin-top: 10px; margin-left: 30px">
+        <input
+          class="form-check-input"
+          id="isCompleted"
+          name="isCompleted"
+          [(ngModel)]="isCompleted"
+          type="checkbox"/>
+        <label for="isCompleted" class="form-check-label">Completed?</label>
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-primary" style="width: 70px;">Add</button>
+      </div>
+    </div>
+  </form>
+</div>
+<hr>
+<div>
+  <pre>{{ todos$ | async | json}}</pre>
+</div>

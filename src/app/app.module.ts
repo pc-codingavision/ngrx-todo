@@ -7,6 +7,9 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { TodoComponent } from './components/todo/todo.component';
 import { todoReducer } from './todo.reducers';
+import { FormsModule } from '@angular/forms';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -16,8 +19,10 @@ import { todoReducer } from './todo.reducers';
   imports: [
     BrowserModule,
     AppRouting,
-    StoreModule.forRoot({ todos: todoReducer}),
-    EffectsModule.forRoot([])
+    FormsModule,
+    StoreModule.forRoot({todos: todoReducer}),
+    EffectsModule.forRoot([]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   providers: [],
   bootstrap: [AppComponent]
