@@ -5,6 +5,6 @@ export default class TodoState {
   todoError: Error;
 }
 
-export const initialState = (): TodoState => {
+export const initializeState = (): TodoState => {
   return {todos: [], todoError: null};
 };
