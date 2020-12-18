@@ -6,6 +6,7 @@ import { AppRouting } from './app.routing';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { TodoComponent } from './components/todo/todo.component';
+import { todoReducer } from './todo.reducers';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,7 @@ import { TodoComponent } from './components/todo/todo.component';
   imports: [
     BrowserModule,
     AppRouting,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot({ todos: todoReducer}),
     EffectsModule.forRoot([])
   ],
   providers: [],
