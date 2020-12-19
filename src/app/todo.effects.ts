@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { Action } from '@ngrx/store';
 
 import * as todoActions from './todo.actions';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { TodoService } from './services/todo-service';
 import Todo from './model/todo';
 
@@ -36,6 +36,20 @@ export class TodoEffects {
       mergeMap(action => this.todoService.add(action.payload).pipe(
         map((todo: Todo) => {
           return todoActions.successCreateTodo({payload: todo});
+        }),
+        catchError((error: Error) => {
+          return of(todoActions.ErrorTodo(error));
+        })
+      ))
+    )
+  );
+
+  toggleStatus$: Observable<Action> = createEffect(() =>
+    this.actions$.pipe(
+      ofType(todoActions.startToggleTodo),
+      mergeMap(action => this.todoService.toggleStatus(action.id).pipe(
+        map((todo: Todo) => {
+          return todoActions.successToggleTodo({payload: todo});
         }),
         catchError((error: Error) => {
           return of(todoActions.ErrorTodo(error));

@@ -1,4 +1,5 @@
 import Todo from './model/todo';
+import { TODOS_MOCK } from './model/mock-todo-data';
 
 export default class TodoState {
   todos: Array<Todo>;
@@ -6,5 +7,5 @@ export default class TodoState {
 }
 
 export const initializeState = (): TodoState => {
-  return {todos: [], todoError: null};
+  return {todos: TODOS_MOCK, todoError: null};
 };

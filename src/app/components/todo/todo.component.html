@@ -9,13 +9,17 @@
 
   <ng-container *ngFor="let todo of todos">
     <div class="row">
-      <div class="col-md-1">Id:</div>
-      <div class="col-md-1">{{ todo.id }}</div>
+      <div class="col-md-1">Id: {{ todo.id }}</div>
       <div class="col-md-1"><strong>Name:</strong></div>
       <div class="col-md-4" todoItem>{{ todo.title }}</div>
-      <div class="col-md-2"><strong>Is completed:</strong></div>
+      <div class="col-md-1"><strong>Completed:</strong></div>
       <div class="col-md-1"><span [ngClass]=" addIsCompletedClass(todo.isCompleted)">{{ todo.isCompleted }}</span></div>
-      <div class="col-md-2"><button class="btn btn-outline-primary" (click)="delete(todo.id)">Delete</button></div>
+      <div class="col-md-1"><button class="btn btn-outline-primary" (click)="delete(todo.id)">Delete</button></div>
+      <div class="col-md-2">
+        <button class="btn btn-outline-primary" (click)="toggleStatus(todo.id)">
+          {{ todo.isCompleted ? 'Set In Progress' : 'Set as completed'}}
+      </button>
+      </div>
     </div>
   </ng-container>
 </div>

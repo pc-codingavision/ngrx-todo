@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import Todo from '../model/todo';
-import { TODOS_MOCK } from '../model/mock-todo-data';
 
 import * as _ from 'lodash';
+import { select, Store } from '@ngrx/store';
+import TodoState from '../todo-state';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodoService {
 
-  private todos = [...TODOS_MOCK];
+  private todos: Todo[];
 
-  constructor() {
+  constructor(private store: Store<{ todos: TodoState }>) {
+    this.store.pipe(select('todos')).subscribe(state => this.todos = state.todos);
   }
 
   getAll(): Observable<Array<Todo>> {
@@ -20,15 +22,20 @@ export class TodoService {
   }
 
   add(todo: Todo): Observable<Todo> {
-    debugger
-    const newTodo = Object.assign({}, {...todo}, {id: (_.max(this.todos.map(t => t.id)) || 0) + 1 });
+    const newTodo = Object.assign({}, {...todo}, {id: (_.max(this.todos.map(t => t.id)) || 0) + 1});
     this.todos = [...this.todos, newTodo];
 
     return of(newTodo);
   }
 
+  toggleStatus(id: number): Observable<Todo> {
+    const t = Object.assign({}, this.todos.find(todo => todo.id === id));
+    t.isCompleted = !t.isCompleted;
+
+    return of(t);
+  }
+
   remove(id: number): Observable<Todo> {
-    debugger
     const todoToRemove = _.find(this.todos, todo => todo.id === id);
     if (todoToRemove) {
       this.todos = this.todos.filter(todo => todo.id !== id);

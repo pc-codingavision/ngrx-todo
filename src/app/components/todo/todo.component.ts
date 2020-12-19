@@ -56,6 +56,10 @@ export class TodoComponent implements OnInit, OnDestroy {
     this.store.dispatch(todoActions.startDeleteTodo({id}));
   }
 
+  toggleStatus(id: number): void {
+    this.store.dispatch(todoActions.startToggleTodo({id}));
+  }
+
   addIsCompletedClass(isCompleted: boolean): string {
     return isCompleted ? 'isCompleted' : 'isNotCompleted';
   }
