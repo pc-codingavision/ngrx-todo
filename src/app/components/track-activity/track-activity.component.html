@@ -1,0 +1,9 @@
+<h2>Track App Activity</h2>
+<div class="container">
+  <div class="row">
+    <button class="btn btn-primary" (click)="clearLog()">Clear Logs</button>
+  </div>
+  <div class="row" *ngFor="let message of activityMessages">
+    {{ message }}
+  </div>
+</div>

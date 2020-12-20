@@ -11,22 +11,25 @@ export const initialState = initializeState();
  */
 const reducer = createReducer(
   initialState,
-  on(todoActions.startGetTodos, state => state),
+  on(todoActions.startGetTodos, state => {
+    return {...state, trackActivity: 'Start Get Todos...'};
+  }),
   on(todoActions.successGetTodo, (state: TodoState, {payload}) => {
-    return {...state, todos: payload};
+    return {...state, todos: payload, trackActivity: 'Todos retrieved successfully.'};
   }),
   on(todoActions.startCreateTodo, (state: TodoState, {payload}) => {
     return {
       ...state,
       todos: [...state.todos],
-      todoError: null
+      todoError: null,
+      trackActivity: 'Start Todo creation...'
     };
   }),
   on(todoActions.successCreateTodo, (state: TodoState, {payload}) => {
-    return {...state, todos: [...state.todos, payload], todoError: null};
+    return {...state, todos: [...state.todos, payload], todoError: null, trackActivity: 'Todo created successfully.'};
   }),
   on(todoActions.startToggleTodo, (state: TodoState, {id}) => {
-    return {...state};
+    return {...state, trackActivity: 'Start toggle status...'};
   }),
   on(todoActions.successToggleTodo, (state: TodoState, {payload}) => {
     return {
@@ -35,17 +38,17 @@ const reducer = createReducer(
           return payload;
         }
         return todo;
-      })], todoError: null
+      })], todoError: null, trackActivity: 'Todo status toggled successfully.'
     };
   }),
   on(todoActions.startDeleteTodo, (state: TodoState, {id}) => {
-    return {...state, todos: [...state.todos.filter(todo => todo.id !== id)]};
+    return {...state, todos: [...state.todos.filter(todo => todo.id !== id)], trackActivity: 'Start todo deletion...'};
   }),
   on(todoActions.successDeleteTodo, (state: TodoState, {payload}) => {
-    return {...state, todos: [...state.todos]};
+    return {...state, todos: [...state.todos], trackActivity: 'Todo deleted successfully.'};
   }),
   on(todoActions.ErrorTodo, (state: TodoState, error: Error) => {
-    return {...state, todoError: error};
+    return {...state, todoError: error, trackActivity: 'Error occurred.'};
   })
 );
 

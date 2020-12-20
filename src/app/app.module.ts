@@ -11,11 +11,13 @@ import { FormsModule } from '@angular/forms';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { TodoEffects } from './todo.effects';
+import { TrackActivityComponent } from './components/track-activity/track-activity.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TodoComponent
+    TodoComponent,
+    TrackActivityComponent
   ],
   imports: [
     BrowserModule,

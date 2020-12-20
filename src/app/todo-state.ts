@@ -4,8 +4,9 @@ import { TODOS_MOCK } from './model/mock-todo-data';
 export default class TodoState {
   todos: Array<Todo>;
   todoError: Error;
+  trackActivity: string;
 }
 
 export const initializeState = (): TodoState => {
-  return {todos: TODOS_MOCK, todoError: null};
+  return {todos: TODOS_MOCK, todoError: null, trackActivity: null};
 };
