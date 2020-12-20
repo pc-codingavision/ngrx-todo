@@ -17,18 +17,16 @@ const reducer = createReducer(
   on(todoActions.successGetTodo, (state: TodoState, {payload}) => {
     return {...state, todos: payload, trackActivity: 'Todos retrieved successfully.'};
   }),
-  on(todoActions.startCreateTodo, (state: TodoState, {payload}) => {
+  on(todoActions.startCreateTodo, (state: TodoState) => {
     return {
       ...state,
-      todos: [...state.todos],
-      todoError: null,
       trackActivity: 'Start Todo creation...'
     };
   }),
   on(todoActions.successCreateTodo, (state: TodoState, {payload}) => {
     return {...state, todos: [...state.todos, payload], todoError: null, trackActivity: 'Todo created successfully.'};
   }),
-  on(todoActions.startToggleTodo, (state: TodoState, {id}) => {
+  on(todoActions.startToggleTodo, (state: TodoState) => {
     return {...state, trackActivity: 'Start toggle status...'};
   }),
   on(todoActions.successToggleTodo, (state: TodoState, {payload}) => {
@@ -41,11 +39,11 @@ const reducer = createReducer(
       })], todoError: null, trackActivity: 'Todo status toggled successfully.'
     };
   }),
-  on(todoActions.startDeleteTodo, (state: TodoState, {id}) => {
-    return {...state, todos: [...state.todos.filter(todo => todo.id !== id)], trackActivity: 'Start todo deletion...'};
+  on(todoActions.startDeleteTodo, (state: TodoState) => {
+    return {...state, trackActivity: 'Start todo deletion...'};
   }),
   on(todoActions.successDeleteTodo, (state: TodoState, {payload}) => {
-    return {...state, todos: [...state.todos], trackActivity: 'Todo deleted successfully.'};
+    return {...state, todos: [...state.todos.filter(todo => todo.id !== payload.id)], trackActivity: 'Todo deleted successfully.'};
   }),
   on(todoActions.ErrorTodo, (state: TodoState, error: Error) => {
     return {...state, todoError: error, trackActivity: 'Error occurred.'};

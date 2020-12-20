@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { Action } from '@ngrx/store';
 
 import * as todoActions from './todo.actions';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, exhaust, exhaustMap, map, mergeMap } from 'rxjs/operators';
 import { TodoService } from './services/todo-service';
 import Todo from './model/todo';
 
@@ -33,7 +33,7 @@ export class TodoEffects {
   createTodo$: Observable<Action> = createEffect(() =>
     this.actions$.pipe(
       ofType(todoActions.startCreateTodo),
-      mergeMap(action => this.todoService.add(action.payload).pipe(
+      exhaustMap(action => this.todoService.add(action.payload).pipe(
         map((todo: Todo) => {
           return todoActions.successCreateTodo({payload: todo});
         }),
@@ -47,7 +47,7 @@ export class TodoEffects {
   toggleStatus$: Observable<Action> = createEffect(() =>
     this.actions$.pipe(
       ofType(todoActions.startToggleTodo),
-      mergeMap(action => this.todoService.toggleStatus(action.id).pipe(
+      exhaustMap(action => this.todoService.toggleStatus(action.id).pipe(
         map((todo: Todo) => {
           return todoActions.successToggleTodo({payload: todo});
         }),
@@ -61,14 +61,16 @@ export class TodoEffects {
   removeTodo$: Observable<Action> = createEffect(() =>
     this.actions$.pipe(
       ofType(todoActions.startDeleteTodo),
-      mergeMap(action => this.todoService.remove(action.id).pipe(
-        map((todo: Todo) => {
-          return todoActions.successDeleteTodo({payload: todo});
-        }),
-        catchError((error: Error) => {
-          return of(todoActions.ErrorTodo(error));
-        })
-      ))
+      exhaustMap(action => {
+        return this.todoService.remove(action.id).pipe(
+          map((todo: Todo) => {
+            return todoActions.successDeleteTodo({payload: todo});
+          }),
+          catchError((error: Error) => {
+            return of(todoActions.ErrorTodo(error));
+          })
+        );
+      })
     )
   );
 }

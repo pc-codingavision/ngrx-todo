@@ -38,7 +38,6 @@ export class TodoService {
   remove(id: number): Observable<Todo> {
     const todoToRemove = _.find(this.todos, todo => todo.id === id);
     if (todoToRemove) {
-      this.todos = this.todos.filter(todo => todo.id !== id);
       return of(todoToRemove);
     }
     return EMPTY;
